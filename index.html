@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>돈통 계산기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md">
+        <!-- 수정된 제목 -->
+        <h1 class="text-3xl font-bold text-center mb-1 text-gray-800">코스트코 마감 돈통 계산기</h1>
+        <!-- 추가된 소제목 -->
+        <p class="text-center mb-6 text-gray-500">코스트코 김해점 F/S</p>
+
+        <div id="input-fields" class="space-y-4">
+            <!-- 5000원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="fiveThousand" class="text-gray-700 font-semibold">5000원 지폐</label>
+                <input type="number" id="fiveThousand" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- 1000원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="oneThousand" class="text-gray-700 font-semibold">1000원 지폐</label>
+                <input type="number" id="oneThousand" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- 500원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="fiveHundred" class="text-gray-700 font-semibold">500원 동전</label>
+                <input type="number" id="fiveHundred" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- 100원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="oneHundred" class="text-gray-700 font-semibold">100원 동전</label>
+                <input type="number" id="oneHundred" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- 50원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="fifty" class="text-gray-700 font-semibold">50원 동전</label>
+                <input type="number" id="fifty" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- 10원 -->
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl shadow-inner">
+                <label for="ten" class="text-gray-700 font-semibold">10원 동전</label>
+                <input type="number" id="ten" value="0" min="0" class="w-24 text-right border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
+        
+        <button id="calculateButton" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-blue-700 transition-colors duration-200">
+            계산하기
+        </button>
+
+        <div id="result-container" class="mt-6 p-6 bg-blue-100 rounded-xl text-center shadow-inner">
+            <p class="text-lg text-blue-800">총 금액:</p>
+            <p id="totalAmount" class="text-4xl font-extrabold text-blue-900 mt-2">0원</p>
+        </div>
+    </div>
+
+    <script>
+        // Get all the input elements and the result display element
+        const fiveThousandInput = document.getElementById('fiveThousand');
+        const oneThousandInput = document.getElementById('oneThousand');
+        const fiveHundredInput = document.getElementById('fiveHundred');
+        const oneHundredInput = document.getElementById('oneHundred');
+        const fiftyInput = document.getElementById('fifty');
+        const tenInput = document.getElementById('ten');
+        const calculateButton = document.getElementById('calculateButton');
+        const totalAmountDisplay = document.getElementById('totalAmount');
+
+        // Function to calculate the total amount
+        const calculateTotal = () => {
+            // Get the numeric values from each input, defaulting to 0 if empty or invalid
+            const fiveThousandCount = parseInt(fiveThousandInput.value) || 0;
+            const oneThousandCount = parseInt(oneThousandInput.value) || 0;
+            const fiveHundredCount = parseInt(fiveHundredInput.value) || 0;
+            const oneHundredCount = parseInt(oneHundredInput.value) || 0;
+            const fiftyCount = parseInt(fiftyInput.value) || 0;
+            const tenCount = parseInt(tenInput.value) || 0;
+
+            // Calculate the total amount
+            const total = (fiveThousandCount * 5000) +
+                          (oneThousandCount * 1000) +
+                          (fiveHundredCount * 500) +
+                          (oneHundredCount * 100) +
+                          (fiftyCount * 50) +
+                          (tenCount * 10);
+            
+            // Format the total with commas and display it
+            totalAmountDisplay.textContent = `${total.toLocaleString()}원`;
+        };
+        
+        // Add a click event listener to the button
+        calculateButton.addEventListener('click', calculateTotal);
+        
+        // Add 'input' event listeners to all input fields for real-time updates
+        fiveThousandInput.addEventListener('input', calculateTotal);
+        oneThousandInput.addEventListener('input', calculateTotal);
+        fiveHundredInput.addEventListener('input', calculateTotal);
+        oneHundredInput.addEventListener('input', calculateTotal);
+        fiftyInput.addEventListener('input', calculateTotal);
+        tenInput.addEventListener('input', calculateTotal);
+
+        // Initial calculation on page load
+        window.onload = calculateTotal;
+    </script>
+</body>
+</html>
