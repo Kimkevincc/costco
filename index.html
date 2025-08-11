@@ -12,13 +12,17 @@
             background-color: #f3f4f6;
         }
     </style>
+    <!-- PWA를 위한 필수 메타 태그 및 매니페스트 파일 추가 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md">
         <!-- 수정된 제목 -->
         <h1 class="text-3xl font-bold text-center mb-1 text-gray-800">코스트코 마감 돈통 계산기</h1>
         <!-- 추가된 소제목 -->
-        <p class="text-center mb-6 text-gray-500">코스트코 김해점 F/S</p>
+        <p class="text-center mb-6 text-gray-500">코스트코 김해점 F/S  </p>
 
         <div id="input-fields" class="space-y-4">
             <!-- 5000원 -->
@@ -64,9 +68,16 @@
             </div>
         </div>
         
-        <button id="calculateButton" class="w-full mt-6 bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-blue-700 transition-colors duration-200">
-            계산하기
-        </button>
+        <!-- 초기화 버튼과 계산하기 버튼을 flexbox로 감싸서 나란히 배치 -->
+        <div class="flex space-x-4 mt-6">
+            <!-- 초기화 버튼 추가 -->
+            <button id="resetButton" class="w-1/2 bg-red-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-red-700 transition-colors duration-200">
+                초기화
+            </button>
+            <button id="calculateButton" class="w-1/2 bg-blue-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:bg-blue-700 transition-colors duration-200">
+                계산하기
+            </button>
+        </div>
 
         <div id="result-container" class="mt-6 p-6 bg-blue-100 rounded-xl text-center shadow-inner">
             <p class="text-lg text-blue-800">총 금액:</p>
@@ -83,6 +94,7 @@
         const fiftyInput = document.getElementById('fifty');
         const tenInput = document.getElementById('ten');
         const calculateButton = document.getElementById('calculateButton');
+        const resetButton = document.getElementById('resetButton'); // 초기화 버튼 추가
         const totalAmountDisplay = document.getElementById('totalAmount');
 
         // Function to calculate the total amount
@@ -107,8 +119,22 @@
             totalAmountDisplay.textContent = `${total.toLocaleString()}원`;
         };
         
-        // Add a click event listener to the button
+        // Function to reset all input fields to 0
+        const resetInputs = () => {
+            fiveThousandInput.value = 0;
+            oneThousandInput.value = 0;
+            fiveHundredInput.value = 0;
+            oneHundredInput.value = 0;
+            fiftyInput.value = 0;
+            tenInput.value = 0;
+            calculateTotal(); // 초기화 후 총 금액도 0으로 업데이트
+        };
+
+        // Add a click event listener to the calculate button
         calculateButton.addEventListener('click', calculateTotal);
+        
+        // Add a click event listener to the reset button
+        resetButton.addEventListener('click', resetInputs);
         
         // Add 'input' event listeners to all input fields for real-time updates
         fiveThousandInput.addEventListener('input', calculateTotal);
